@@ -1,10 +1,12 @@
+[TOC]
+
 # 组件
 
 本章节讲解如何开发一个react组件，在开始前，推荐两个VS Code 插件：
 - `Prettier - Code formatter`：格式化代码
 - `Simple React Snippets`：react代码段快捷键
 
-使用create-react-app脚手架创建一个新的项目，首先安装`bootstrap`：
+使用create-react-app脚手架创建一个新的项目，然后安装`bootstrap`：
 
 ```javascript
 npm i bootstrap
@@ -234,7 +236,7 @@ getBadgeClasses() {
 
 ### 渲染列表
 
-现在我们来看看如何渲染一个列表，如果你使用过Angular 或者 Vue，应该知道可以直接使用指令的方式循环生成模板，但是react中没有熏染的概念，因为jsx不是模板引擎，他只是用于渲染react元素的，那么我们应该怎么做呢？js中有一个map方法，可以映射数组的每一个元素，我们把数组中的每一个元素转换为react元素，这样就可以渲染一个列表了，具体作法看代码：
+现在我们来看看如何渲染一个列表，如果你使用过Angular 或者 Vue，应该知道可以直接使用指令的方式循环生成模板，但是react中没有循环的概念，因为jsx不是模板引擎，他只是用于渲染react元素的，那么我们应该怎么做呢？js中有一个map方法，可以映射数组的每一个元素，我们把数组中的每一个元素转换为react元素，这样就可以渲染一个列表了，具体作法看代码：
 
 ```javascript
 state = {
@@ -270,6 +272,7 @@ render() {
 }
 renderTags() {
   if (!this.state.tags.length) return <p>No Data</p>;
+  // 如果什么也不想返回 就return null
   return (
     <ul>
       {this.state.tags.map(tag => (
@@ -284,7 +287,7 @@ render() {
   return (
     <React.Fragment>
       {!this.state.tags.length && <p>adsf</p>}
-      {!this.state.tags.length && "Hey"}
+      {this.state.tags.length && "Hey"}
     </React.Fragment>
   );
 }
@@ -318,9 +321,9 @@ handleClick() {
 
 **绑定事件句柄**
 
-上面我们看到不能在事件处理函数中访问到state的属性，并且访问`this`是undefined，为什么会这样？js的this指向取决于如何函数如何被调用，那个对象调用this就指向哪，但是，如果函数被独立调用，this指向的就是windo对象，但是如果开启了严格模式(`use strict`)，独立调用的函数就不会指向window对象，而是undefined，react就是开启了严格模式，这就是为何无法再事件处理函数中访问this的原因，那么怎么解决呢？就是使用`bind方法`。
+上面我们看到不能在事件处理函数中访问到state的属性，并且访问`this`是undefined，为什么会这样？js的this指向取决于如何函数如何被调用，哪个对象调用函数，this就指向哪，但是，如果函数被独立调用，this指向的就是window对象，但是如果开启了严格模式(`use strict`)，独立调用的函数就不会指向window对象，而是undefined，react就是开启了严格模式，这就是为何无法再事件处理函数中访问this的原因，那么怎么解决呢？就是使用`bind方法`。
 
-在类中有一个构造函数`constructor`，这是类初始化实例时调用的方法，在这个方法中是可以访问到this的，So，在构造函数中绑定事件梳理函数的this指向是最佳时机，具体作法是：
+在类中有一个构造函数`constructor`，这是类初始化实例时调用的方法，在这个方法中是可以访问到this的，So，在构造函数中绑定事件处理函数的this指向是最佳时机，具体作法是：
 
 ```javascript
 class Counter extends Component {
@@ -380,7 +383,7 @@ class Counter extends Component {
 
 ```javascript
 handleClick = () => {
-  this.state.count++
+  this.state.count++ // 页面不生效
 }
 ```
 
@@ -401,7 +404,7 @@ handleClick = () => {
 
 ### 传递事件参数
 
-有时候需要向时间处理函数传递参数，在react元素中，事件是引用事件处理函数的，所以我们不能写成：
+有时候需要向时间处理函数传递参数，在react元素中，事件是引用事件处理函数的，而不是调用，所以我们不能写成：
 
 ```javascript
 <button onClick={this.handleClick(id)}>
@@ -415,4 +418,15 @@ handleClick = () => {
 
 ### 总结
 
-本章讲解了react组件的： 表达式、元素设置属性、动态渲染CSS类、渲染列表、条件渲染、事件处理、更新状态、传递事件参数等知识，相比于其他框架，react的API相对较少。okey~Thank for your reading!
+本章讲解了react组件的： 
+
+- 表达式
+- 元素设置属性
+- 动态渲染CSS类
+- 渲染列表
+- 条件渲染
+- 事件处理
+- 更新状态
+- 传递事件参数
+
+...等知识，相比于其他框架，react的API相对较少。okey~Thank for your reading!
