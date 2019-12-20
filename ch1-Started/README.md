@@ -1,8 +1,14 @@
-[TOC]
+- [入门](#入门)
+  + [什么是react](#什么是react)
+- [准备环境](#准备环境)
+- [应用结构](#应用结构)
+- [Hello_React](#Hello_React)
+- [自定义配置](#自定义配置)
+- [小结](#小结)
 
-# 入门
+## [入门](#入门)
 
-## 什么是react
+### [什么是react](#什么是react)
 
 react是一个快速创建可交互用户界面的JavaScript库，它是Facebook在2011年推出的，如今是最受欢迎的JavaScript用户界面库，react应用的核心是组件，组件实际上是一段用户界面代码，当你使用react创建程序时，实际创建的是一组独立、可重用的组件，然后将这些组件组合成复杂的用户界面。
 
@@ -10,7 +16,7 @@ react是一个快速创建可交互用户界面的JavaScript库，它是Facebook
 
 react和Angular都是基于组件逻辑的架构，尽管如此，Angular是一个框架或者说完整的解决方案，但react是一个库，react值关注显示部分的东西，并且用于确保视图始终同步，这就是react做的事，不多也不少，因为这样的原因，react需要学习的API很少，当使用react开发程序时，为了实现目标，还需要借助其他库，比如：路由、处理HTTP请求等等...这不一定是坏事，因为可以选择自己喜欢的库。
 
-## 准备环境
+## [准备环境](#准备环境)
 
 首先我们需要安装`nodeJS`，因为我们需要用到Node的内置工具-NPM（Node包管理工具），使用它安装第三方库，如果没有安装，可以去Node官网：`https://nodejs.org`去下载并安装。
 
@@ -20,14 +26,14 @@ react和Angular都是基于组件逻辑的架构，尽管如此，Angular是一�
 npm i -g create-react-app
 ```
 
-## 安装VS Code 拓展
+## [安装VS Code 拓展](#安装VS Code 拓展)
 
 为了使开发更轻松，需要安装两个VS Code插件：
 
 - `Simple React Snippets`：react快捷命令
 - `prettier`：格式化代码
 
-## 创建第一个React App
+## [创建第一个React App](#创建第一个React App)
 
 通过上面安装的react脚手架来创建一个新的程序，在命令行中输入：
 
@@ -51,7 +57,7 @@ npm start
 
 执行命令后，会在本机的3000端口启动应用，然后自动打开浏览器打开网页。
 
-### 应用结构
+## [应用结构](#应用结构)
 
 首先看看脚手架创建都为我们生成了哪些文件：
 
@@ -77,7 +83,7 @@ README.md // README文件
 
 可以看到使用脚手架生成的项目结构非常的简洁。
 
-## Hello React
+## [Hello_React](#Hello_React)
 
 删除src下的所有文件，然后创建一个index.js文件，我们自己写一个Hello World应用：
 
@@ -102,7 +108,7 @@ ReactDom.render(ele, document.getElementById('root'))
 
 运行应用会看到，网页中显示了我们的h1标签，并且显示Hello React，这就是我们写的第一个react应用，非常的简单。
 
-## 自定义配置
+## [自定义配置](#自定义配置)
 
 上面我们使用react脚手架创建的是一个完全可工作的程序是零配置的，有时，可能想自己设置webpack程序的特性，这时候，就需要使用`eject`命令了。在`package.json`文件中，有4个脚本命令：
 
@@ -123,6 +129,6 @@ npm run eject
 
 执行该命令之后，package.json文件给出了所有的依赖关系，同时在根目录有一个`config`文件夹，这是应用的配置。
 
-### 小结
+## [小结](#小结)
 
 okey~ 本章对react有了一个浅显的认识，并且使用react脚手架创建了一个简易的应用，this is a good begin! 后面我们会继续深入react的学习，come on guys!
