@@ -1,4 +1,14 @@
-- [Login 表单组件](#Login表单组件)
+- [Login表单组件](#Login表单组件)
+- [Refs获取DOM节点](#Refs获取DOM节点)
+- [受控元素—获取表单的输入](#受控元素—获取表单的输入)
+  + [处理多个输入](#处理多个输入)
+  + [常见错误](#常见错误)
+- [封装一个复用的input组件](#封装一个复用的input组件)
+  + [验证输入(Validation)](#验证输入(Validation))
+  + [值变化时验证输入](#值变化时验证输入)
+- [Joi验证库](#Joi验证库)
+  + [使用joi验证表单](#使用joi验证表单)
+- [封装Form组件](#封装Form组件)
 
 # [表单](#表单)
 
@@ -6,7 +16,7 @@
 
 几乎每一个应用程序都会有表单提交功能，所以表单也是很重要的一部分，这章节来看看在 react 中如何使用表单。
 
-## [Login 表单组件](#Login表单组件)
+## [Login表单组件](#Login表单组件)
 
 ```javascript
 import React, { Component } from "react";
@@ -52,7 +62,7 @@ class LoginForm extends Component {
 export default LoginForm;
 ```
 
-## (Refs 获取 DOM 节点)[#Refs 获取 DOM 节点]
+## [Refs获取DOM节点](#Refs获取DOM节点)
 
 在传统的 DOM 操作时代，获取 input 输入框的值是：`document.getElementById('username').value`，通过获取 DOM 元素，然后获取对应的值，在 react 中，我们不使用 document 对象，因为在 react 的所有观点中，建立了高于 DOM 的抽象全局观，不去操作 DOM，让程序更好管理，也更好的进行单元测试，但是如果真的需要获取一个 DOM 节点对象呢？在 react 中有一种方法：
 
@@ -157,7 +167,7 @@ class LoginForm extends Component {
 export default LoginForm;
 ```
 
-### 处理多个输入
+### [处理多个输入](#处理多个输入)
 
 上面的代码只是处理了单个输入，如果有多个输入怎么办？那就要通过设定元素的name属性，然后动态的设置state的属性：
 
@@ -486,4 +496,127 @@ validateProperty = ({ name, value }) => {
   const { error } = schema.validate(obj);
   return error ? error.message : null;
 };
+```
+
+## [封装Form组件](#封装Form组件)
+
+```javascript
+// Form.jsx
+import React, { Component } from "react";
+import Joi from "@hapi/joi";
+import Input from "./Input";
+
+
+class Form extends Component {
+  state = {
+    data: {},
+    errors: {}
+  };
+  rules = {
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
+  };
+  schema = Joi.object(this.rules);
+  validate = () => {
+    const { error } = this.schema.validate(this.state.data, {
+      abortEarly: false
+    });
+    if (!error) return null;
+
+    const errors = {};
+    error.details.forEach(item => {
+      errors[item.path[0]] = item.message;
+    });
+    return errors;
+  };
+  validateProperty = ({ name, value }) => {
+    // [name]表示动态key
+    const obj = { [name]: value };
+    const schema = Joi.object({ [name]: this.rules[name] });
+    const { error } = schema.validate(obj);
+    return error ? error.message : null;
+  };
+
+  // 阻止表单默认提交行为
+  handleSubmit = e => {
+    e.preventDefault();
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+  };
+  handleChange = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(input);
+    if (errorMessage) errors[input.name] = errorMessage;
+    else delete errors[input.name];
+
+    let data = { ...this.state.data };
+    data[input.name] = input.value;
+    this.setState({ data, errors });
+  };
+
+  renderInput(name, label) {
+    const { data, errors } = this.state;
+    return (
+      <Input
+        value={data[name]}
+        name={name}
+        label={label}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+
+  renderButton(label) {
+    return (
+      <button
+        disabled={this.validate()}
+        className="btn btn-primary"
+        type="submit"
+      >
+        {label}
+      </button>
+    );
+  }
+}
+
+export default Form;
+```
+
+**使用**
+
+```javascript
+// loginForm.jsx
+import React from "react";
+import Form from "./common/Form";
+
+class LoginForm extends Form {
+  username = React.createRef();
+  state = {
+    data: {
+      username: "",
+      password: ""
+    },
+    errors: {}
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <h2>Login</h2>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("username", "Username")}
+          {this.renderInput("password", "Password")}
+          {this.renderButton("Login")}
+        </form>
+      </div>
+    );
+  }
+}
+
+export default LoginForm;
 ```
