@@ -1,14 +1,3 @@
-# [认证与授权](#认证与授权)
-
-后端设置响应头(header)：`access-control-expose-headers: x-auth-token`，这个响应头让服务器扩展了功能，让浏览器可以访问响应头部`x-auth-token`这个自定义属性，以 x 开头的属性，都表示自定义属性
-
-## 封装路由
-
-
-封装一个 `ProtectedRoute 组件`，这个组件返回一个 Route 组件，但是它是用户敏感的，如果用户没有登录就会重定向到登录页/404页面，这个组件不管在哪里用，都要输出一个标准的 React Route 组件
-
-```javascript
-// ProtectedRoute 组件.jsx
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
@@ -30,5 +19,3 @@ const ProtectedRoute = ({ /*path,*/ component: Component, render, ...rest }) => 
 };
 
 export default ProtectedRoute;
-```
-

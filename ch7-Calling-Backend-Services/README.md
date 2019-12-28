@@ -56,4 +56,4 @@ export default List;
 ## 实用库推荐
 
 - react-toastify：好看的Toast弹框
-- Sentry.io 日志记录服务
+- Sentry.io 日志记录服务网站(不是库)

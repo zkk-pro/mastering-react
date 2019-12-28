@@ -7,8 +7,8 @@ import Post from "./components/post";
 import Movies from "./components/movies";
 import Home from "./components/home";
 import NotFound from "./components/notFound";
-import Admin from './components/admin/admin'
-
+import Admin from "./components/admin/admin";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 function App() {
   return (
@@ -26,7 +26,8 @@ function App() {
             render={props => <Products sortBy="abc" {...props} />}
           />
           <Route path="/post/:year?/:day?" component={Post} />
-          <Route path="/movies" component={Movies} />
+          {/* <Route path="/movies" component={Movies} /> */}
+          <ProtectedRoute path="/movies" component={Movies} />
           <Route path="/admin" component={Admin} />
           <Route path="/404" component={NotFound} />
           <Route path="/" component={Home} exact />
