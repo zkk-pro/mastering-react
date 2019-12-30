@@ -21,7 +21,12 @@ const ProtectedRoute = ({ /*path,*/ component: Component, render, ...rest }) => 
       // path={path}
       {...rest}
       render={props => {
-        if (!user) return <Redirect to="/404" />
+        // if (!user) return <Redirect to="/404" />
+        if (!user) return <Redirect to={{
+          pathname: '404',
+          state: { from: props.location }
+          // 传递给组件state属性，组件通过state属性拿到来自哪里，登入后，默认回到首页，如果有state属性，就去location对象的pathname 路径
+        }} />
         return Component ? <Component {...props} /> : render(props)
         // 如果有Component，就渲染组件，没有就使用render方法
       }}
